@@ -92,8 +92,26 @@
                 });
             } else if (evt.keyCode == 68) {
                 // To the right
+                var cont = 1;
                 elements.forEach(function(e) {
-                    e.translate(new BABYLON.Vector3(-1, 0, 0), 1, BABYLON.Space.LOCAL);
+                    //cube.position.addInPlace(new BABYLON.Vector3(1, 0, 0));
+                                                
+                    var matrix = BABYLON.Matrix.Translation(0, 0, 0);
+                    e.setPivotMatrix(matrix);
+                    
+                    //e.rotate(BABYLON.Axis.X, Math.PI / 64, BABYLON.Space.LOCAL);
+                    //e.rotation.x = Math.PI/4
+                    //e.rotation.z = Math.PI/4
+                    if (cont === 3 || cont === 4 || cont === 5) {
+                        e.translate(new BABYLON.Vector3(-1, 0, 0), 1, BABYLON.Space.LOCAL);
+                    }
+                    if (cont === 1 || cont === 6 || cont === 7) {
+                        e.translate(new BABYLON.Vector3(-1, 0, 0), 1.05, BABYLON.Space.LOCAL);
+                    }
+                    if (cont === 8) {
+                        e.translate(new BABYLON.Vector3(-1, 0, 0), 1, BABYLON.Space.LOCAL);
+                    }
+                    cont++;
                 });
             }
         };
