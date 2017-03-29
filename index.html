@@ -14,14 +14,15 @@
 </head>
 <body>
     <canvas id="canvas"></canvas>
+    <audio id="audio" src="audio/open_creaky_door.mp3" autostart="false" ></audio>
     <script>
         window.addEventListener('DOMContentLoaded', function(){
             var canvas = document.getElementById('canvas');
             var elements = [];
             var actions = ['trans', 'rotate', 'scale', 'shear'];
             var dimensions = ['x', 'y', 'z'];
-            // 1: House, 0: Tree, 3: Door
-            var objects3D = [3, 0, 5];
+            // 3: House, 0: Tree, 5: Door
+            var objects3D = [3, 0, 4];
             var actualAction = actions[0];
             var actualObject = objects3D[0];
 
@@ -176,6 +177,14 @@
                 // Key: 2 - Tree
                 } else if (evt.keyCode == 50) {
                     actualObject = objects3D[1];
+                
+                // Key: X - OpenDoor
+                } else if (evt.keyCode == 88) {
+                    var audio = document.getElementById('audio');
+                    audio.play()
+                    actualAction = 'door';
+                    actualObject = objects3D[2];
+                    openDoor(elements[actualObject]);
                 }
                 
             };
@@ -209,6 +218,12 @@
                         break;
                 }
             };
+
+            var openDoor = function(element) {
+                element.translate(new BABYLON.Vector3(0.8, 0, 0), 1.0, BABYLON.Space.LOCAL);
+                element.translate(new BABYLON.Vector3(0, 0, 0.8), 1.0, BABYLON.Space.LOCAL);
+                element.rotate(BABYLON.Axis.Y, 1.5, BABYLON.Space.LOCAL);
+            }
 
             // On key up, reset the movement
             var onKeyUp = function(evt) {
