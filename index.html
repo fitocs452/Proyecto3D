@@ -19,6 +19,7 @@
             var canvas = document.getElementById('canvas');
             var elements = [];
             var actions = ['trans', 'rotate', 'scale', 'shear'];
+            var dimensions = ['x', 'y', 'z'];
             // 1: House, 0: Tree, 3: Door
             var objects3D = [3, 0, 5];
             var actualAction = actions[0];
@@ -89,6 +90,10 @@
                     // Rotation
                     } else if (actualAction === actions[1]) {
                         rotateElements(elements[actualObject], BABYLON.Axis.Y);
+                    
+                    // Scale: Grow in X
+                    } else if (actualAction === actions[2]) {
+                        scaleElements(elements[actualObject], dimensions[0], 1.1);
                     }
                 
                 // Key: D - Right
@@ -96,6 +101,10 @@
                     if (actualAction === actions[0]) {
                         var transVector = new BABYLON.Vector3(-1, 0, 0);
                         translateElements(elements[actualObject], transVector, transVector);
+                    
+                    // Scale: Decrement in X
+                    } else if (actualAction === actions[2]) {
+                        scaleElements(elements[actualObject], dimensions[0], 0.9);
                     }
 
                 // Key: W - Up
@@ -106,6 +115,10 @@
                     // Rotation
                     } else if (actualAction === actions[1]) {
                         rotateElements(elements[actualObject], BABYLON.Axis.Z);
+
+                    // Scale: Grow in z
+                    } else if (actualAction === actions[2]) {
+                        scaleElements(elements[actualObject], dimensions[2], 1.1);
                     }
 
                 // Key: S - Down
@@ -116,6 +129,10 @@
                     // Rotation
                     } else if (actualAction === actions[1]) {
                         rotateElements(elements[actualObject], BABYLON.Axis.X);
+
+                    // Scale: Grow in z
+                    } else if (actualAction === actions[2]) {
+                        scaleElements(elements[actualObject], dimensions[2], 0.9);
                     }
                 
                 // Key: E - Up in Y
@@ -123,6 +140,10 @@
                     if (actualAction === actions[0]) {
                         var transVector = new BABYLON.Vector3(0, 1, 0);
                         translateElements(elements[actualObject], transVector, transVector);
+                    
+                    // Scale: Grow in Y
+                    } else if (actualAction === actions[2]) {
+                        scaleElements(elements[actualObject], dimensions[1], 1.1);
                     }
                 
                 // Key: Q - Down in Y
@@ -130,6 +151,10 @@
                     if (actualAction === actions[0]) {
                         var transVector = new BABYLON.Vector3(0, -1, 0);
                         translateElements(elements[actualObject], transVector, transVector);
+                    
+                    // Scale: Grow in Y
+                    } else if (actualAction === actions[2]) {
+                        scaleElements(elements[actualObject], dimensions[1], 0.9);
                     }
                 
                 // Key: I - Translate
@@ -140,7 +165,7 @@
                 } else if (evt.keyCode == 79) {
                     actualAction = actions[1];
                     
-                // Key: P - Shear
+                // Key: P - Scale
                 } else if (evt.keyCode == 80) {
                     actualAction = actions[2];
 
@@ -166,6 +191,23 @@
             var rotateElements = function(element, vector) {
                 //rotate(element);
                 element.rotate(vector, 1.0, BABYLON.Space.LOCAL);
+            };
+
+            var scaleElements = function(element, dimension, factor) {
+                switch(dimension) {
+                    // In x
+                    case dimensions[0]:
+                        element.scaling.x = element.scaling.x * factor;
+                        break;
+                    // In y
+                    case dimensions[1]:
+                        element.scaling.y = element.scaling.y * factor;
+                        break;
+                    // In z
+                    case dimensions[2]:
+                        element.scaling.z = element.scaling.z * factor;
+                        break;
+                }
             };
 
             // On key up, reset the movement
